@@ -17,6 +17,7 @@ public class Customer {
     @Column(name = "phone")
     private String phone;
 
+    //Constructors
     public Customer() {}
 
     public Customer(String name, String email, String phone) {
@@ -25,6 +26,7 @@ public class Customer {
         this.phone = phone;
     }
 
+    //Getters and setters
     public Long getCustomerID() {
         return customerID;
     }

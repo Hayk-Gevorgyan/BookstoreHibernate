@@ -7,7 +7,6 @@ import org.bookstore.entities.*;
 import org.bookstore.hibernate.HibernateConfig;
 import org.hibernate.*;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
@@ -18,46 +17,46 @@ public class Bookstore {
 
     public static void main(String[] args) {
 
+        //creating a session
         SessionFactory sessionFactory = HibernateConfig.getSessionFactory();
         Session session = sessionFactory.openSession();
 
         boolean fin = false;
         Scanner commandInput = new Scanner(System.in);
 
-        try{
-            while (!fin) {
-                System.out.println("""
-                        Commands
-                        1 - update book info
-                        2 - update customer info
-                        3 - list books by genre
-                        4 - list books by author
-                        5 - list customer purchase history
-                        6 - list sales history
-                        7 - list total revenue by genre
-                        8 - finish
-                        input : """);
-                String command = commandInput.nextLine();
-                switch (command) {
-                    case "1" -> updateBookDetails(session);
-                    case "2" -> updateCustomerDetails(session);
-                    case "3" -> listBooksByGenre(session);
-                    case "4" -> listBooksByAuthor(session);
-                    case "5" -> listCustomerPurchaseHistory(session);
-                    case "6" -> listSaleHistory(session);
-                    case "7" -> generateTotalRevenueByGenre(session);
-                    case "8" -> {
-                        fin = true;
-                        HibernateConfig.finish();
-                    }
+        while (!fin) {
+            System.out.println("""
+                    Commands
+                    1 - update book info
+                    2 - update customer info
+                    3 - list books by genre
+                    4 - list books by author
+                    5 - list customer purchase history
+                    6 - list sales history
+                    7 - list total revenue by genre
+                    8 - finish
+                    input :""");
+            String command = commandInput.nextLine();
+            switch (command) {
+                case "1" -> updateBookDetails(session);
+                case "2" -> updateCustomerDetails(session);
+                case "3" -> listBooksByGenre(session);
+                case "4" -> listBooksByAuthor(session);
+                case "5" -> listCustomerPurchaseHistory(session);
+                case "6" -> listSaleHistory(session);
+                case "7" -> generateTotalRevenueByGenre(session);
+                case "8" -> {
+                    fin = true;
+                    HibernateConfig.shutdown();
                 }
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
+        scanner.close();
+        commandInput.close();
     }
 
-    private static void updateBookDetails(Session session) throws SQLException, NumberFormatException {
+    //Updates Book Details
+    private static void updateBookDetails(Session session) {
         Transaction transaction = null;
 
         try {
@@ -113,7 +112,8 @@ public class Bookstore {
             }
         }
     }
-    private static void updateCustomerDetails(Session session) throws SQLException, NumberFormatException {
+    //Updates Customer Details
+    private static void updateCustomerDetails(Session session) {
         Transaction transaction = null;
 
         try {
@@ -157,7 +157,8 @@ public class Bookstore {
             }
         }
     }
-    private static void listBooksByGenre(Session session) throws SQLException {
+    //Queries Books By Genre
+    private static void listBooksByGenre(Session session) {
         System.out.print("Enter genre: ");
         String genre = scanner.nextLine().trim();
 
@@ -191,7 +192,8 @@ public class Bookstore {
             }
         }
     }
-    private static void listBooksByAuthor(Session session) throws SQLException {
+    //Queries Books By Author
+    private static void listBooksByAuthor(Session session) {
         System.out.print("Enter author: ");
         String author = scanner.nextLine().trim();
 
@@ -225,7 +227,8 @@ public class Bookstore {
             }
         }
     }
-    private static void listCustomerPurchaseHistory(Session session) throws SQLException {
+    //Queries Customers Purchase History
+    private static void listCustomerPurchaseHistory(Session session) {
         System.out.print("Enter customer ID: ");
         long customerID = scanner.nextLong();
 
@@ -267,7 +270,8 @@ public class Bookstore {
                     customerName, title, author, genre, dateOfSale);
         }
     }
-    private static void listSaleHistory(Session session) throws SQLException {
+    //Queries All Sales History
+    private static void listSaleHistory(Session session) {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<Customer> customerRoot = criteriaQuery.from(Customer.class);
@@ -301,7 +305,8 @@ public class Bookstore {
                     customerName, bookTitle, dateOfSale);
         }
     }
-    private static void generateTotalRevenueByGenre(Session session) throws SQLException {
+    //Generates Total Revenue By Genre
+    private static void generateTotalRevenueByGenre(Session session) {
         CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<Sale> saleRoot = criteriaQuery.from(Sale.class);

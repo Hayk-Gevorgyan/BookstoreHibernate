@@ -20,6 +20,7 @@ public class Book {
     @Column(name = "quantity_in_stock", nullable = false)
     private Integer quantityInStock;
 
+    //Constructors
     public Book() {
 
     }
@@ -30,6 +31,8 @@ public class Book {
         this.price = price;
         this.quantityInStock = quantityInStock;
     }
+
+    //Getters and setters
 
     public Long getBookID() {
         return bookID;

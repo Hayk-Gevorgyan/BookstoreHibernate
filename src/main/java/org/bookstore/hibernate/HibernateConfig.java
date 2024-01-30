@@ -10,6 +10,7 @@ public class HibernateConfig {
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
 
+    //Session factory getter implementation
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
@@ -29,7 +30,8 @@ public class HibernateConfig {
         return sessionFactory;
     }
 
-    public static void finish() {
+    //shutdown
+    public static void shutdown() {
         if (registry != null) {
             StandardServiceRegistryBuilder.destroy(registry);
         }

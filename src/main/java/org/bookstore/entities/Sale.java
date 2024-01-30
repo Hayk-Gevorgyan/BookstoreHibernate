@@ -25,6 +25,7 @@ public class Sale {
     @Column(name = "total_price")
     Double totalPrice;
 
+    //Constructors
     public Sale() {
     }
 
@@ -36,6 +37,7 @@ public class Sale {
         this.totalPrice = totalPrice;
     }
 
+    //Getters and setters
     public Long getSaleID() {
         return saleID;
     }
